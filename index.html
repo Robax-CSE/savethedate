@@ -3,172 +3,159 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Save the Date — Roberto & Chiara</title>
+  <title>Save the Date — Roberto e Chiara</title>
   <style>
     :root{
-      --bg: #050607;
-      --panel: #020304;
+      --bg:#050607; --panel:#020304;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --green: #a7ffb2;
-      --white: #eaffee;
+      --green:#a7ffb2; --white:#eaffee;
     }
+    html,body{height:100%;margin:0;background:var(--bg);}
+    body{display:flex;align-items:center;justify-content:center;}
 
-    html, body { height: 100%; margin: 0; background: var(--bg); }
-    body { display:flex; align-items:center; justify-content:center; }
-
-    .screen {
-      width: min(1200px, 94vw);
-      height: min(680px, 74vh);
-      background: var(--panel);
-      border-radius: 16px;
-      box-shadow: 0 24px 70px rgba(0,0,0,.65);
-      padding: 22px;
-      overflow: hidden;
-      position: relative;
-      font: 16px/1.5 var(--mono);
-      color: var(--green);
+    .screen{
+      width:min(1200px,94vw);
+      height:min(680px,74vh);
+      background:var(--panel);
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.65);
+      padding:22px;
+      overflow:hidden;
+      position:relative;
+      font:16px/1.5 var(--mono);
+      color:var(--green);
       transform: translateZ(0);
     }
 
-    pre { margin: 0; white-space: pre-wrap; word-break: break-word; }
-
-    .cursor {
-      display:inline-block;
-      width: 10px;
-      margin-left: 2px;
-      animation: blink 1s steps(2,end) infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* Scanlines + vignetta */
+    /* scanlines + vignetta */
     .screen::before{
-      content:"";
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(
+      content:""; position:absolute; inset:0;
+      background:repeating-linear-gradient(
         to bottom,
         rgba(255,255,255,0.035) 0px,
         rgba(255,255,255,0.035) 1px,
         rgba(0,0,0,0) 3px,
         rgba(0,0,0,0) 7px
       );
-      pointer-events:none;
-      mix-blend-mode: overlay;
-      opacity:.35;
+      pointer-events:none; mix-blend-mode:overlay; opacity:.35;
     }
     .screen::after{
-      content:"";
-      position:absolute; inset:-20%;
-      background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,.62) 65%, rgba(0,0,0,.9) 100%);
+      content:""; position:absolute; inset:-20%;
+      background:radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,.62) 65%, rgba(0,0,0,.9) 100%);
       pointer-events:none;
     }
 
-    /* --- GLITCH / TAKEOVER MODES --- */
-
-    /* Micro glitch breve */
-    .microglitch{
-      animation: microFlicker .14s infinite;
-      filter: contrast(1.25) saturate(1.15);
+    /* terminal viewport */
+    .term{
+      position:relative;
+      height:100%;
+      overflow:hidden;
     }
+    pre{margin:0;white-space:pre-wrap;word-break:break-word;}
+    .cursor{
+      display:inline-block; width:10px; margin-left:2px;
+      animation:blink 1s steps(2,end) infinite;
+    }
+    @keyframes blink{50%{opacity:0;}}
+
+    /* glitch modes */
+    .microglitch{ animation: microFlicker .12s infinite; filter:contrast(1.25) saturate(1.15); }
     @keyframes microFlicker{
-      0%   { transform: translate(0,0); opacity:1; }
-      25%  { transform: translate(1px,-1px); opacity:.95; }
-      50%  { transform: translate(-2px,1px); opacity:.9; }
-      75%  { transform: translate(2px,0); opacity:.92; }
-      100% { transform: translate(0,0); opacity:1; }
+      0%{transform:translate(0,0);opacity:1;}
+      25%{transform:translate(1px,-1px);opacity:.95;}
+      50%{transform:translate(-2px,1px);opacity:.9;}
+      75%{transform:translate(2px,0);opacity:.92;}
+      100%{transform:translate(0,0);opacity:1;}
     }
-
-    /* Distorsione "storta" più cinematografica */
     .warp{
-      animation: warpJitter .12s infinite;
-      filter: contrast(1.35) saturate(1.2) hue-rotate(-6deg);
+      animation: warpJitter .11s infinite;
+      filter:contrast(1.35) saturate(1.2) hue-rotate(-6deg);
     }
     @keyframes warpJitter{
-      0%   { transform: perspective(900px) rotateX(0.8deg) rotateY(-0.6deg) skewX(-0.5deg) translate(0,0) scale(1.002); }
-      20%  { transform: perspective(900px) rotateX(-0.6deg) rotateY(0.9deg) skewX(0.8deg) translate(2px,-1px) scale(1.004); }
-      40%  { transform: perspective(900px) rotateX(1.2deg) rotateY(0.2deg) skewY(0.7deg) translate(-2px,1px) scale(1.003); }
-      60%  { transform: perspective(900px) rotateX(-1deg) rotateY(-0.3deg) skewX(-0.9deg) translate(3px,0) scale(1.004); }
-      80%  { transform: perspective(900px) rotateX(0.4deg) rotateY(1deg) skewY(-0.6deg) translate(-3px,-1px) scale(1.003); }
-      100% { transform: perspective(900px) rotateX(0.8deg) rotateY(-0.6deg) skewX(-0.5deg) translate(0,0) scale(1.002); }
+      0%{transform:perspective(900px) rotateX(.8deg) rotateY(-.6deg) skewX(-.5deg) translate(0,0) scale(1.002);}
+      25%{transform:perspective(900px) rotateX(-.6deg) rotateY(.9deg) skewX(.8deg) translate(2px,-1px) scale(1.004);}
+      50%{transform:perspective(900px) rotateX(1.2deg) rotateY(.2deg) skewY(.7deg) translate(-2px,1px) scale(1.003);}
+      75%{transform:perspective(900px) rotateX(-1deg) rotateY(-.3deg) skewX(-.9deg) translate(3px,0) scale(1.004);}
+      100%{transform:perspective(900px) rotateX(.8deg) rotateY(-.6deg) skewX(-.5deg) translate(0,0) scale(1.002);}
     }
 
-    /* RGB split overlay */
-    .rgb::before{
-      opacity: .55;
-      filter: saturate(1.3);
-    }
-    .rgbLayer{
-      position:absolute; inset:0;
-      pointer-events:none;
-      mix-blend-mode: screen;
-      opacity: 0;
-    }
-    .rgbOn .rgbLayer{ opacity:.22; }
-    .rgbLayer.red   { background: rgba(255, 80, 80, .20); transform: translate(2px,0); }
-    .rgbLayer.cyan  { background: rgba( 80,255,255, .18); transform: translate(-2px,0); }
+    /* RGB split + noise */
+    .rgbLayer{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0;}
+    .rgbOn .rgbLayer{opacity:.22;}
+    .rgbLayer.red{background:rgba(255,80,80,.20);transform:translate(2px,0);}
+    .rgbLayer.cyan{background:rgba(80,255,255,.18);transform:translate(-2px,0);}
+    .noise{position:absolute;inset:0;pointer-events:none;opacity:0;
+      background-image:radial-gradient(rgba(255,255,255,.25) 1px, transparent 1px);
+      background-size:3px 3px;mix-blend-mode:overlay;filter:blur(.2px);}
+    .noiseOn .noise{opacity:.08;}
 
-    /* Noise overlay */
-    .noise{
-      position:absolute; inset:0;
-      pointer-events:none;
-      opacity: 0;
-      background-image:
-        radial-gradient(rgba(255,255,255,.25) 1px, transparent 1px);
-      background-size: 3px 3px;
-      mix-blend-mode: overlay;
-      filter: blur(.2px);
-    }
-    .noiseOn .noise{ opacity:.08; }
-
-    /* --- REVEAL --- */
-    .reveal{
+    /* hacker transition overlay */
+    .transition{
       position:absolute; inset:0;
       display:none;
-      align-items:center; justify-content:center;
       background:#000;
-      color: var(--white);
-      text-align:center;
-      padding: 32px;
+      color:#c8ffd1;
+      z-index:5;
+      padding:18px;
+      font: 14px/1.25 var(--mono);
+      letter-spacing:.02em;
     }
+    .transition.show{display:block;}
+    .bars{
+      position:absolute; inset:0; pointer-events:none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.06) 0px,
+        rgba(255,255,255,.06) 2px,
+        rgba(0,0,0,0) 8px,
+        rgba(0,0,0,0) 18px
+      );
+      opacity:.0;
+      animation: bars .55s ease-in-out infinite;
+    }
+    @keyframes bars{
+      0%{opacity:.0; transform:translateY(0);}
+      30%{opacity:.35; transform:translateY(6px);}
+      70%{opacity:.18; transform:translateY(-10px);}
+      100%{opacity:.0; transform:translateY(0);}
+    }
+    .statusline{
+      position:absolute; left:18px; right:18px; top:18px;
+      display:flex; justify-content:space-between; opacity:.9;
+    }
+    .noiseText{ position:absolute; left:18px; right:18px; top:48px; bottom:18px; overflow:hidden; white-space:pre; }
 
-    /* Save the date che TREMA/GLITCHEGGIA sempre */
+    /* reveal */
+    .reveal{
+      position:absolute; inset:0;
+      display:none; align-items:center; justify-content:center;
+      background:#000; color:var(--white);
+      text-align:center; padding:32px;
+      z-index:6;
+      opacity:0;
+      animation: revealIn .55s ease-out forwards;
+    }
+    @keyframes revealIn{
+      from{opacity:0; filter:blur(2px);}
+      to{opacity:1; filter:blur(0);}
+    }
     .std{
-      font: 700 52px/1.05 var(--mono);
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      display:inline-block;
-      position: relative;
+      font:700 52px/1.05 var(--mono);
+      letter-spacing:.04em; text-transform:uppercase;
+      display:inline-block; position:relative;
       animation: stdTremble .14s infinite;
-      text-shadow:
-        2px 0 rgba(255,80,80,.35),
-        -2px 0 rgba(80,255,255,.28);
+      text-shadow: 2px 0 rgba(255,80,80,.35), -2px 0 rgba(80,255,255,.28);
     }
     @keyframes stdTremble{
-      0%   { transform: translate(0,0); filter: none; }
-      25%  { transform: translate(2px,-1px); filter: contrast(1.2); }
-      50%  { transform: translate(-2px,1px); filter: contrast(1.3) hue-rotate(-8deg); }
-      75%  { transform: translate(1px,1px); filter: contrast(1.25); }
-      100% { transform: translate(0,0); filter: none; }
+      0%{transform:translate(0,0);filter:none;}
+      25%{transform:translate(2px,-1px);filter:contrast(1.2);}
+      50%{transform:translate(-2px,1px);filter:contrast(1.3) hue-rotate(-8deg);}
+      75%{transform:translate(1px,1px);filter:contrast(1.25);}
+      100%{transform:translate(0,0);filter:none;}
     }
-
-    /* Nomi/data GRANDI e STABILI */
-    .names{
-      margin-top: 18px;
-      font: 800 76px/1.02 var(--mono);
-      letter-spacing: .02em;
-    }
-    .date{
-      margin-top: 10px;
-      font: 700 64px/1.05 var(--mono);
-      opacity: .95;
-    }
-    .sub{
-      margin-top: 14px;
-      font: 500 18px/1.3 var(--mono);
-      opacity: .78;
-      letter-spacing: .02em;
-    }
-
-    /* Hint (facoltativo) per registrazione verticale: puoi mettere height maggiore e width minore */
+    .names{margin-top:18px;font:800 76px/1.02 var(--mono);letter-spacing:.02em;}
+    .date{margin-top:10px;font:700 64px/1.05 var(--mono);opacity:.95;}
+    .sub{margin-top:14px;font:500 18px/1.3 var(--mono);opacity:.78;letter-spacing:.02em;}
   </style>
 </head>
 <body>
@@ -177,13 +164,25 @@
     <div class="rgbLayer cyan"></div>
     <div class="noise"></div>
 
-    <pre id="out"></pre><span class="cursor">█</span>
+    <div class="term" id="term">
+      <pre id="out"></pre><span class="cursor">█</span>
+    </div>
+
+    <div class="transition" id="transition">
+      <div class="statusline">
+        <div>VIDEO SIGNAL: LOST</div>
+        <div>SYNC: ███░░░</div>
+      </div>
+      <div class="noiseText" id="noiseText"></div>
+      <div class="bars"></div>
+    </div>
 
     <div class="reveal" id="reveal">
       <div>
         <div class="std">SAVE THE DATE</div>
         <div class="names">Roberto e Chiara</div>
         <div class="date">08 Maggio 2026</div>
+        <div class="sub">Invito ufficiale in arrivo.</div>
       </div>
     </div>
   </div>
@@ -191,17 +190,15 @@
   <script>
     const out = document.getElementById('out');
     const screen = document.getElementById('screen');
+    const term = document.getElementById('term');
+    const transition = document.getElementById('transition');
+    const noiseText = document.getElementById('noiseText');
     const reveal = document.getElementById('reveal');
 
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-    async function typeLine(text, cps=55) {
-      for (const ch of text) {
-        out.textContent += ch;
-        await sleep(1000 / cps);
-      }
-      out.textContent += "\n";
-    }
+    // velocità: parte "normale", poi accelera ~4x
+    let speed = 1.0;
 
     function setMode({micro=false, warp=false, rgb=false, noise=false} = {}){
       screen.classList.toggle('microglitch', micro);
@@ -210,95 +207,141 @@
       screen.classList.toggle('noiseOn', noise);
     }
 
-    async function wipeFast(ms=420){
-      // cancella in modo aggressivo per effetto takeover
-      const start = Date.now();
-      while (Date.now() - start < ms) {
+    function scrollToBottom(){
+      // simulazione "scorrimento terminale"
+      term.scrollTop = term.scrollHeight;
+    }
+
+    async function typeLine(text, cps=80) {
+      const realCps = cps * speed;
+      for (const ch of text) {
+        out.textContent += ch;
+        // delay minimo per evitare “tutto in un frame”
+        await sleep(Math.max(1, 1000 / realCps));
+      }
+      out.textContent += "\n";
+      scrollToBottom();
+    }
+
+    async function spam(lines, cps=220){
+      for (const l of lines){
+        await typeLine(l, cps + Math.floor(Math.random()*60));
+        // micro pausa (scalata con speed)
+        await sleep(Math.max(2, (12 + Math.random()*28) / speed));
+      }
+    }
+
+    async function wipeFast(durationMs=240){
+      const start = performance.now();
+      while (performance.now() - start < durationMs) {
         const t = out.textContent;
-        out.textContent = t.slice(0, Math.max(0, t.length - Math.floor(12 + Math.random()*45)));
-        await sleep(18 + Math.random()*22);
+        out.textContent = t.slice(0, Math.max(0, t.length - Math.floor(30 + Math.random()*110)));
+        scrollToBottom();
+        await sleep(12);
       }
       out.textContent = "";
     }
 
-    async function spamLines(lines, cps=90, jitter=true){
-      for (const l of lines){
-        await typeLine(l, cps + (jitter ? Math.floor(Math.random()*25) : 0));
-        await sleep(jitter ? (20 + Math.random()*60) : 30);
-      }
+    // Transizione hacker: noise frames + "sync"
+    function randChar(){
+      const chars = "█▓▒░<>/\\|{}[]()$#@*!?=+-_~;:.,0123456789ABCDEF";
+      return chars[Math.floor(Math.random() * chars.length)];
     }
 
-    async function run() {
-      // --- NORMALITÀ ---
-      setMode({noise:true});
-      await typeLine("$ code .", 70);
-      await typeLine("Opening workspace: wedding-repo", 65);
-      await sleep(200);
-      await typeLine("$ git status", 70);
-      await typeLine("On branch main", 70);
-      await typeLine("Your branch is up to date with 'origin/main'.", 60);
-      await typeLine("nothing to commit, working tree clean", 60);
-      await sleep(350);
-      await typeLine("$ npm run build", 70);
-      await typeLine("✔ Compiled successfully", 70);
-      await sleep(550);
+    function makeNoiseBlock(rows=22, cols=86){
+      let s = "";
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+          s += (Math.random() < 0.12) ? randChar() : " ";
+        }
+        s += "\n";
+      }
+      return s;
+    }
 
-      // --- PRIMO “QUALCOSA NON VA” (micro glitch) ---
-      setMode({micro:true, rgb:true, noise:true});
-      await typeLine("> WARNING: unexpected input stream detected", 95);
-      await sleep(120);
-      await typeLine("> source: tty0 (unknown)", 95);
-      await sleep(120);
-      setMode({noise:true}); // torna quasi normale
+    async function hackerTransition(totalMs=650){
+      transition.classList.add('show');
 
-      // --- TAKEOVER (warp + rgb + noise) ---
+      // poche “frame” di noise per l’effetto takeover
+      const frames = 8;
+      const frameMs = Math.floor(totalMs / frames);
+
+      for(let i=0;i<frames;i++){
+        noiseText.textContent = makeNoiseBlock(22, 92);
+        // aumenta aggressività durante la transizione
+        setMode({micro:true, warp:true, rgb:true, noise:true});
+        await sleep(frameMs);
+      }
+
+      // “sync ok” breve
+      noiseText.textContent =
+        "RECONNECTING…\n" +
+        "SYNC: ██████ OK\n" +
+        "OVERRIDE: DISPLAY BUFFER\n" +
+        "RENDER: FINAL PAYLOAD\n\n" +
+        ">>>";
+
       await sleep(220);
+
+      transition.classList.remove('show');
+    }
+
+    async function run(){
+      // Obiettivo: tutto entro ~7–8s
+      // Parte 1: “normale” ~1.2–1.6s
+      setMode({noise:true});
+      await typeLine("$ code .", 90);
+      await typeLine("Opening workspace: wedding-repo", 85);
+      await typeLine("$ git status", 90);
+      await typeLine("On branch main", 85);
+      await typeLine("nothing to commit, working tree clean", 80);
+
+      // Accelera a ~4x (qui “inizia a scorrere”)
+      speed = 4.0;
+
+      // Parte 2: takeover veloce con molte righe (~4–5s)
+      setMode({micro:true, rgb:true, noise:true});
+      await typeLine("> WARNING: unexpected input stream detected", 180);
+      await typeLine("> source: tty0 (unknown)", 180);
+
       setMode({warp:true, rgb:true, noise:true});
-      await spamLines([
+      await spam([
         "[ kernel ] intrusion: signature match: 0xC0FFEE",
-        "[ auth ] elevating privileges... (sudo) ✅",
-        "[ net  ] opening reverse tunnel: 127.0.0.1 -> 10.13.37.42",
-        "[ net  ] handshake: TLS1.3 / cipher: CHACHA20-POLY1305",
-        "[ sys  ] mounting /dev/feelings as read-write",
-        "[ mem  ] dumping secrets... ██████████ 72%",
-        "[ sec  ] firewall: bypassed",
-        "[ io   ] injecting payload...",
-        "[ io   ] writing to display buffer...",
-        "[ ok   ] display override granted ✅"
-      ], 110, true);
-
-      // --- “CANCELLO TUTTO” (wipe aggressivo) ---
-      await sleep(120);
-      await wipeFast(520);
-
-      // --- MESSAGGIO HACKER ---
-      setMode({warp:true, rgb:true, noise:true});
-      await spamLines([
+        "[ auth   ] elevating privileges... (sudo) ✅",
+        "[ auth   ] token injected: ********-****-****-****-************",
+        "[ net    ] opening reverse tunnel: 127.0.0.1 -> 10.13.37.42",
+        "[ net    ] handshake: TLS1.3 / cipher: CHACHA20-POLY1305",
+        "[ sec    ] firewall: bypassed",
+        "[ fs     ] mounting /dev/feelings as read-write",
+        "[ mem    ] dumping secrets... ████████░░ 83%",
+        "[ io     ] injecting payload...",
+        "[ io     ] display override granted ✅",
+        "[ gpu    ] rewriting framebuffer...",
+        "[ ok     ] takeover: active",
+        "",
         "Hello, Roberto.",
         "We have accessed your system.",
-        "",
         "Analyzing heart status... ██████████ 100%",
         "RESULT: COMPROMISED ✅",
         "ROOT CAUSE: Chiara",
-        "",
         "This change is irreversible.",
-        "Proceeding with scheduled deployment..."
-      ], 95, true);
+        "Scheduling deployment...",
+        "Deploy target: wedding_event",
+        "Deploy date: 08-05-2026",
+        "Commit: forever",
+        "Status: READY"
+      ], 260);
 
-      await sleep(260);
+      // wipe aggressivo (molto rapido)
+      await wipeFast(220);
 
-      // --- GLITCH FINALE + REVEAL ---
-      // colpo finale più forte
-      setMode({micro:true, warp:true, rgb:true, noise:true});
-      await sleep(260);
+      // Parte 3: transizione hacker (no cambio pagina secco) ~0.8–1.0s
+      await hackerTransition(720);
 
-      // stacco a nero pulito
+      // Reveal finale
       setMode({});
       screen.style.background = "#000";
       out.textContent = "";
-      await sleep(220);
-
-      // mostra reveal (SAVE THE DATE trema by CSS)
       reveal.style.display = "flex";
     }
 
