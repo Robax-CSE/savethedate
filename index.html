@@ -190,6 +190,23 @@
     margin-left:4px;
     animation: blink 1s steps(2,end) infinite;
   }
+
+  #startBtn{
+  margin-top:20px;
+  background:none;
+  border:1px solid var(--green);
+  color:var(--green);
+  padding:12px 24px;
+  font:16px var(--mono);
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#startBtn:hover{
+  background:var(--green);
+  color:#000;
+}
   </style>
 </head>
 <body>
@@ -199,7 +216,9 @@
     <div class="noise"></div>
 
     <div class="term" id="term">
-      <pre id="out"></pre><span class="cursor">█</span>
+      <pre id="out"></pre>
+      <span class="cursor">█</span>
+      <button id="startBtn">[ TAP TO INITIALIZE ]</button>
     </div>
 
     <div class="transition" id="transition">
@@ -403,21 +422,30 @@
       await typeFinalDate("08 Maggio 2026", 20);
     }
   // Messaggio iniziale
-  out.textContent = "SYSTEM READY\n\nPress ENTER to initialize sequence...\n";
+  out.textContent = "SYSTEM READY\n\nPress START to initialize sequence...\n";
 
   let started = false;
+const startBtn = document.getElementById("startBtn");
 
-  document.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter" && !started) {
-      started = true;
+async function startSequence(){
+  if(started) return;
+  started = true;
 
-      out.textContent += "\n> initializing sequence...\n";
-      await sleep(400);
+  startBtn.style.display = "none";
+  document.querySelector(".cursor").style.display = "none";
 
-      document.querySelector(".cursor").style.display = "none";
-      await run();
-    }
-  });  
+  await run();
+}
+
+// Desktop
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter"){
+    startSequence();
+  }
+});
+
+// Mobile / touch
+startBtn.addEventListener("click", startSequence);
   
   </script>
 </body>
